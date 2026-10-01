@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="mr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>नो न्यूज इज गुड न्यूज!</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            ibmplexsans: ['"IBM Plex Sans Devanagari"', '"IBM Plex Sans"', 'sans-serif'],
+          },
+          colors: {
+            parchment: {
+              50: '#faf8f5',
+              100: '#f5f0e8',
+              200: '#ede2d3',
+              800: '#1e1c1a',
+              900: '#141211',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: IBM Plex Sans and IBM Plex Sans Devanagari -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Devanagari:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Devanagari', 'IBM Plex Sans', sans-serif;
+      word-break: normal;
+      overflow-wrap: break-word;
+      hyphens: none;
+      -webkit-hyphens: none;
+    }
+
+    .article-content p {
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.95;
+      margin-bottom: 1.65rem;
+    }
+
+    @media (max-width: 640px) {
+      .article-content p {
+        text-align: justify;
+        line-height: 1.85;
+        margin-bottom: 1.4rem;
+      }
+    }
+
+    /* Subtle Floating Animations for SVG Graphic */
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(1.2deg); }
+    }
+    @keyframes calmPulse {
+      0%, 100% { opacity: 0.45; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(1.05); }
+    }
+    @keyframes waveMotion {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(6px); }
+      100% { transform: translateX(0); }
+    }
+
+    .animate-float {
+      animation: gentleFloat 6s ease-in-out infinite;
+    }
+    .animate-float-delayed {
+      animation: gentleFloat 7s ease-in-out 1.5s infinite;
+    }
+    .animate-calm-pulse {
+      animation: calmPulse 4s ease-in-out infinite;
+    }
+    .animate-wave {
+      animation: waveMotion 5s ease-in-out infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-[#fcfaf7] dark:bg-parchment-900 text-stone-800 dark:text-stone-200 transition-colors duration-300 min-h-screen selection:bg-amber-200 dark:selection:bg-amber-800">
+  
+  <!-- Top Floating Action Bar -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-[#fcfaf7]/85 dark:bg-parchment-900/85 border-b border-stone-200/70 dark:border-stone-800/80 transition-colors">
+    <div class="max-w-3xl mx-auto px-5 py-3.5 flex justify-end items-center gap-3">
+      
+      <!-- Share Button -->
+      <button id="shareBtn" 
+              type="button" 
+              aria-label="शेअर करा" 
+              class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-sm font-medium bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 transition-all active:scale-95 shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+        <span>शेअर</span>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button id="themeToggle" 
+              type="button" 
+              aria-label="थीम बदला" 
+              class="inline-flex items-center justify-center p-2 rounded-full bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 transition-all active:scale-95 shadow-sm">
+        <!-- Sun Icon (for dark mode) -->
+        <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Moon Icon (for light mode) -->
+        <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- Share Toast Feedback Notification -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-stone-900 text-stone-100 dark:bg-stone-100 dark:text-stone-900 rounded-full text-xs sm:text-sm font-medium shadow-xl opacity-0 pointer-events-none transition-all duration-300 transform translate-y-3">
+    लिंक कॉपी झाली आहे!
+  </div>
+
+  <main class="max-w-3xl mx-auto px-5 sm:px-8 pt-6 pb-20">
+
+    <!-- Light colorful animated SVG graphic -->
+    <div class="w-full flex justify-center mb-8">
+      <div class="w-full max-w-sm sm:max-w-md aspect-[16/9] flex items-center justify-center p-2">
+        <svg viewBox="0 0 420 240" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-sm select-none">
+          <!-- Gentle Background Aura -->
+          <circle cx="210" cy="120" r="95" fill="#fde68a" class="animate-calm-pulse" opacity="0.35"/>
+          <circle cx="160" cy="110" r="75" fill="#bae6fd" class="animate-calm-pulse" opacity="0.3"/>
+          <circle cx="260" cy="130" r="65" fill="#fbcfe8" class="animate-calm-pulse" opacity="0.25"/>
+
+          <!-- Serene Calming Waves / Zen Breeze -->
+          <path d="M 40 180 C 110 160, 160 195, 230 180 C 300 165, 340 185, 390 175" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" opacity="0.6" class="animate-wave"/>
+          <path d="M 60 195 C 130 180, 180 205, 250 190 C 310 180, 350 195, 380 190" stroke="#fed7aa" stroke-width="2" stroke-linecap="round" opacity="0.7" class="animate-wave"/>
+
+          <!-- Muted/Silent Notification Bell floating softly -->
+          <g class="animate-float-delayed" transform="translate(70, 48)">
+            <rect x="0" y="0" width="38" height="38" rx="19" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" class="dark:fill-stone-800 dark:stroke-stone-700"/>
+            <path d="M19 12 C16.5 12 14.5 14 14.5 16.5 C14.5 20.5 13 22 13 22 L25 22 C25 22 23.5 20.5 23.5 16.5 C23.5 14 21.5 12 19 12 Z" stroke="#94a3b8" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+            <path d="M17.5 24 C17.8 25 18.3 25.5 19 25.5 C19.7 25.5 20.2 25 20.5 24" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="11" y1="11" x2="27" y2="27" stroke="#f43f5e" stroke-width="1.8" stroke-linecap="round"/>
+          </g>
+
+          <!-- Peaceful Central Postcard / Letter Envelope (Vintage Communication) -->
+          <g class="animate-float" transform="translate(135, 60)">
+            <!-- Postcard base -->
+            <rect x="10" y="15" width="130" height="85" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" opacity="0.95"/>
+            <!-- Inland letter / Postcard stamp -->
+            <rect x="106" y="24" width="24" height="28" rx="2" fill="#fed7aa" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="2 1"/>
+            <circle cx="118" cy="38" r="6" fill="#f97316" opacity="0.6"/>
+            <!-- Postmark Seal -->
+            <circle cx="95" cy="38" r="12" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="3 2" fill="none"/>
+            <line x1="84" y1="38" x2="106" y2="38" stroke="#cbd5e1" stroke-width="1"/>
+            <!-- Message lines -->
+            <line x1="26" y1="36" x2="72" y2="36" stroke="#d97706" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            <line x1="26" y1="50" x2="80" y2="50" stroke="#d97706" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+            <line x1="26" y1="64" x2="65" y2="64" stroke="#d97706" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+            <line x1="26" y1="78" x2="50" y2="78" stroke="#d97706" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+          </g>
+
+          <!-- Peaceful Green Plant Leaf (Quietness & Rejuvenation) -->
+          <g class="animate-float" transform="translate(290, 85)">
+            <path d="M 0 50 C 0 25, 20 5, 45 0 C 45 25, 25 45, 0 50 Z" fill="#86efac" opacity="0.85"/>
+            <path d="M 0 50 Q 20 25 45 0" stroke="#22c55e" stroke-width="1.5" fill="none"/>
+          </g>
+
+          <!-- Warm Cup of Tea / Susegad Mindset -->
+          <g class="animate-float-delayed" transform="translate(270, 140)">
+            <path d="M 10 20 C 10 32, 20 38, 32 38 C 44 38, 54 32, 54 20 L 10 20 Z" fill="#fdba74" opacity="0.9"/>
+            <path d="M 54 23 C 59 23, 62 26, 62 29 C 62 32, 59 34, 54 34" stroke="#ea580c" stroke-width="1.8" fill="none"/>
+            <path d="M 24 14 C 22 9, 26 6, 24 2" stroke="#fed7aa" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <path d="M 34 14 C 32 9, 36 6, 34 2" stroke="#fed7aa" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Document Title (Centered) -->
+    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 text-stone-900 dark:text-stone-100 tracking-tight leading-snug">
+      नो न्यूज इज गुड न्यूज!
+    </h1>
+
+    <article class="article-content text-base sm:text-lg text-stone-800 dark:text-stone-300 font-normal">
+      <p>एक काळ होता. पाच पैशात पोस्टकार्ड, पंचवीस पैशात इनलँड आणि दोन रुपयांत बंद पाकीट सर्वसामान्य लोकांची ख्याली-खुशाली देशात कुठेही पोचवत होते. साडेतीन रुपयांत ‘एरोग्राम’ परदेशात जात होते. बहिणीने परगावी राहणाऱ्या भावास बंद पाकिटात घालून राखी पाठवणे नित्याचे होते. तात्काळ संदेश देण्यासाठी तार होती. या सगळ्यात आजच्या स्टँडर्डनुसार ‘इन्स्टंट’ काहीच नव्हते पण म्हणून खरंच कोणाचे काही अडत देखील नव्हते.</p>
+
+      <p>साधारणतः १९८५ सालापर्यंत भारतात एक साधे लँडलाइन फोन कनेक्शन मिळवण्यासाठी बुकिंग करून किमान काही वर्षे वाट पहावी लागायची. तेव्हां फोन सेवा सरकार पुरवत होते - डिपार्टमेंट ऑफ पोस्ट अँड टेलिग्राम. घरी फोन असणे हे तसे एक श्रीमंतीचेच लक्षण होते. ज्यांच्या घरी फोन असेल त्यांना शेजारी-पाजारी मान असे आणि त्या कुटुंबातील लहानांची मित्रमंडळींत जरा कॉलर ताठ असे; इतकेच. फोन असलेल्या घरात शेजारच्या लोकांसाठी कॉल येणे आणि त्याची वर्दी खणखणीत हाक मारून दिली जाणे यात कोणालाही काही वावगे वाटत नव्हते. उलट त्या निमित्ताने एकमेकांकडे सहज येणे-जाणे होत होते.</p>
+
+      <p>तीन मिनिटांचा स्थानिक कॉल तीन रुपयांना पडण्याचा तो काळ होता. त्या काळाच्या मानाने खूपच महाग. परगावी बोलायचे तर ट्रंक कॉल बुक करावा लागे आणि खूप घाई असेल तर लायटनिंग कॉल! कालांतराने मग एसटीडी सेवा/एसटीडी बूथ सुरू झाले. पुणे ते दिल्ली फोन साठी दोन सेकंदाचा ‘पल्स’ आणि मुंबईसाठी आठ सेकंदाचा; म्हणजे तितक्या सेकंदाना एका कॉलचे रुपये! रात्री ९ नंतर दर १/४ व्हायचे व एसटीडी बूथबाहेर रांगा लागायच्या, पण तिथेही माणसामाणसांत प्रत्यक्ष संपर्क/संभाषण होत होते. ‘कर लो दुनिया मुठ्ठी में’, One Nation, One Call ही असली स्वप्ने देखील कोणाला पडत नव्हती.</p>
+
+      <p>या सगळ्याचा एक परिणाम असा होता की लोकं आजूबाजूच्या लोकांशी याची देही याची डोळा प्रत्यक्ष बोलत होते आणि समोरासमोर आले तरच एकमेकाना बघत होते! प्रत्यक्ष पाहिले किंवा ऐकलेले तक्षणी ‘व्हायरल’ करण्याची सोयच नसल्याने ते दुसऱ्याला सांगे-कळवे पर्यंत आपोआपच काही वेळ जात होता आणि म्हणून त्यावर रिअॅक्शनची शक्यता कमी आणि रिस्पॉन्सची जास्त असे आपोआपच होत होते. लोकं खऱ्या अर्थाने एकमेकांच्या संपर्कात होते. अनोळखी ठिकाणी आणि प्रवासात विश्वासाने आणि न लाजता पत्ता विचारला – सांगितला जात होता. ‘लोकेशन शेअर’ करणे या अत्यंत त्रयस्थ पद्धतीचा उगम व्हायचा होता.</p>
+
+      <p>भारतात पहिला मोबाईल १९९६ साली आला. तेव्हा तो महागच होता. इनकमिंगला देखील रुपये मोजावे लागायचे आणि सुरुवातीस तर १६.४० रुपये प्रति मिनिट इतका दर होता. फोनमध्ये कॅमेरा नव्हता. ‘एसएमएस’ला देखील वेगळे पैसे मोजावे लागत होते आणि कीपॅड असलेल्या मोबाईलवर टायपिंग करणे क्लिष्ट होते म्हणून असेल कदाचित पण ‘मेसेजिंग’ नगण्य होते. “डेटा” बाल्यावस्थेत तर होताच पण ‘स्लो’ आणि महाग देखील. ‘घरोघरी वायफाय’ अजून जन्माला यायचे होते.</p>
+
+      <p>मग हळूच ‘कर लो दुनिया मुठ्ठी में’चा उदय झाला. यथावकाश ‘इनकमिंग कॉल्स फ्री’ झाले, “वन नेशन वन कॉल” प्रत्यक्षात आले आणि लोकांचे लोकांशी प्रत्यक्ष संभाषण कमी कमी होऊ लागले. पण तरीही एक होते – लोक एकमेकांशी, वायफळ का असेना, पण बोलत होते.</p>
+
+      <p>त्या काळात खरोखरीच काही ‘न्यू’ असेल तरच त्याची ‘न्यूज’ होत होती. बातमी ही बातमी होती, तिची विनाकारण ‘सर्वात मोठी बित्तंबातमी’ व्हायची होती. ‘नो न्यूज इज गुड न्यूज’ या त्रिकालाबाधित सत्याला अनुसरून सर्वसामान्य जनजीवन ‘सुशेगाद’ होते.</p>
+
+      <p>२०१० नंतर स्मार्टफोन आणि त्यापाठोपाठ अक्षरशः कचरा-दराने आलेल्या “डेटा-पॅक्स” मुळे मात्र ही जुनी ‘सुशेगाद’ जीवनपद्धती उध्वस्त झाली असेच म्हणावेसे वाटते. कुठेही काहीही ‘खुट्ट’ झाले तरी त्याचा अक्षरश: कीस पाडला जाऊ लागला. व्हिडिओ कॉल्स मुळे प्रत्यक्ष भेटी दुर्लभ झाल्या आणि ‘हस्त-नेत्रपल्लव-सांभाषणकला’ विस्मृतीत गेली. सर्व काही ‘आभासी’ करणारा हा माहितीच्या अतिरेकाचा व्हायरस नकळत आपल्या मेंदूची ऊर्जा खाऊ लागला, मनःस्वास्थ्य बिघडवू लागला आणि त्याचे काही चांगले असले तरी बरेचसे वाईट परिणाम आता आपल्याला व्यापून आहेत.</p>
+
+      <p>पुन्हा एकदा शांत चित्ताने विचार करायला हवा त्या आपणच विसरलेल्या ‘नो न्यूज इज गुड न्यूज’ या संकल्पनेचा.</p>
+
+      <p>खरंच आपले काही नडते का एखादी व्हायरल ‘ब्रेकिंग न्यूज’ आपल्या चक्षु-कर्णी तक्षणी नाही पडली तर? एखादा कॉल मिस झाला तर? काही वेळासाठी ‘नोटिफिकेशन’ टिंग नाही वाजली तर? जगाच्या सुदूर कोपऱ्यात जाऊदे; पण अगदी शेजारच्या गल्लीत काही घडले आणि ते आपल्याला सत्वर नाही कळले तर आभाळ कोसळते का?</p>
+
+      <p>बहुतांश वेळेस काहीही फरक पडत नाही. नाही येत जगबुडी आणि आभाळ असते तिथेच असते, कारण या ‘दूरसंचार क्रांती’ मुळे आपल्याला ‘त्वरित’ कळलेल्या बहुतेक घटनांशी आपला खरं तर काहीही संबंध नसतो. उलटपक्षी नक्की काय झाले होते ते पुरेसा वेळ गेल्यानंतर कळले (किंवा नाहीच कळले) तर त्यावर प्रतिक्रिये ऐवजी प्रतिसाद दिला जाण्याची शक्यता वाढते. भावनेच्या भरात अफवांचा पूर येत नाही आणि प्रतिसाद देणे देखील खरोखरीच आवश्यक आहे का? हा विचार केला जाण्याची ‘स्पेस’ देखील तयार होते; आपोआप. थोडक्यात काय तर - ‘नो न्यूज इज गुड न्यूज’!!</p>
+
+      <p>मग काय करायचे या ‘नो न्यूज इज गुड न्यूज’ची अनुभूती घेण्यासाठी साठी? फार काही अवघड नाही. फक्त आपला बाह्य जगाशी सदा-सर्वदा असलेला ‘संपर्क’ थोड्या वेळासाठी जाणीवपूर्वक सुरुवातीस दिवसातून किमान एकदा (आणि त्याची गोडी लागली की थोड्या थोड्या वेळासाठी अनेकदा) बंद ठेवायचा. फोन सायलेंट करून, डेटा/वायफाय बंद करून किंवा फोन/टॅब दूर अंतरावर ठेवून आपण त्यापासून ठरवून “डिस्कनेक्ट” व्हायचे.</p>
+
+      <p>या ‘डिस्कनेक्ट-टाइम’ मधे खरंच काहीही करायचे नाही सुरुवातीस. फक्त स्वस्थ बसायचे, स्वतःशी संवाद साधण्याच्या प्रयत्न करायचा किंवा शब्दशः (इतराना उपद्रव न-देणाऱ्या) उनाडक्या करायच्या. मानसिक स्वास्थ्य साधण्यासाठी म्हणून जे उपाय सुचवले जातात, जसे की ध्यान, ॐकार, भ्रामरी, अनुलोम-विलोम, आत्मनिरीक्षण यातले देखील काहीही केले नाही तरी चालेल. असे हे जाणीवपूर्वक दिवासाकाठी काही वेळ तरी “डिस्कनेक्टेड” राहणे नेटाने करत राहिले तर एक दिवस या ‘डिस्कनेक्ट-टाइम’ मधल्या ‘नो न्यूज’ मधे ‘स्वानंदा’ची कोणती ‘गुड न्यूज’ दडलेली असते त्याची नक्की अनुभूती येईल. ज्याची त्याची unique अनुभूती!!</p>
+
+      <!-- Centered Ending Ornament as in Document -->
+      <div class="text-center text-xl text-stone-400 dark:text-stone-500 py-6 tracking-widest select-none">
+        ✬✬✬
+      </div>
+    </article>
+  </main>
+
+  <script>
+    // Theme toggle management
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const sunIcon = document.getElementById('sunIcon');
+    const moonIcon = document.getElementById('moonIcon');
+    const htmlElement = document.documentElement;
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        htmlElement.classList.add('dark');
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      } else {
+        htmlElement.classList.remove('dark');
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
+    }
+
+    // Check system preference or stored theme
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const storedTheme = localStorage.getItem('theme');
+    const initDark = storedTheme === 'dark' || (!storedTheme && prefersDark);
+    applyTheme(initDark);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const isCurrentlyDark = htmlElement.classList.contains('dark');
+      const nextTheme = !isCurrentlyDark;
+      applyTheme(nextTheme);
+      localStorage.setItem('theme', nextTheme ? 'dark' : 'light');
+    });
+
+    // Share button management
+    const shareBtn = document.getElementById('shareBtn');
+    const toast = document.getElementById('toast');
+
+    function showToast(message) {
+      if (message) toast.textContent = message;
+      toast.classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-3', 'pointer-events-none');
+      }, 2600);
+    }
+
+    shareBtn.addEventListener('click', async () => {
+      const shareData = {
+        title: 'नो न्यूज इज गुड न्यूज!',
+        text: 'नो न्यूज इज गुड न्यूज! - एक विचारप्रवर्तक लेख',
+        url: window.location.href
+      };
+
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        try {
+          await navigator.share(shareData);
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            copyToClipboard(window.location.href);
+          }
+        }
+      } else {
+        copyToClipboard(window.location.href);
+      }
+    });
+
+    function copyToClipboard(text) {
+      // Document execCommand fallback for iFrame compatibility
+      const tempInput = document.createElement('input');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showToast('लिंक कॉपी झाली आहे!');
+      } catch (err) {
+        showToast('कृपया ब्राउझर लिंक कॉपी करा.');
+      }
+      document.body.removeChild(tempInput);
+    }
+  </script>
+</body>
+</html>
